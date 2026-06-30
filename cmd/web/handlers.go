@@ -3,13 +3,26 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"html/template"
+	"log"
 )
 func home(w http.ResponseWriter, r *http.Request){
 	if r.URL.Path != "/"{
 		http.NotFound(w,r)
 		return
 	}
-	w.Write([]byte("hello from Snippetbox"))
+
+	ts,err:= template.ParseFiles("./ui/html/pages/home.html")
+	if err != nil{
+		log.Print(err.Error())
+		http.Error(w,"Internal Server Error",500)
+		return
+	}
+	err= ts.Execute(w,nil)
+	if err != nil{
+		log.Print(err.Error())
+		http.Error(w,"Internal Server Error",500)
+	}
 }
 
 func snippetView(w http.ResponseWriter, r *http.Request){
