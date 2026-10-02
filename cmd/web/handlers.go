@@ -16,17 +16,18 @@ func (app *application) home(w http.ResponseWriter, r *http.Request){
 		"./ui/html/partials/nav.html",
 	}
 
-	ts,err:= template.ParseFiles(files...	)
+	ts,err:= template.ParseFiles(files...)
 	if err != nil{
 		app.errorLog.Print(err.Error())
-		http.Error(w,"Internal Server Error",500)
+		http.Error(w,"Internal Server error",500)
 		return
 	}
 
 	err= ts.ExecuteTemplate(w,"base",nil)
 	if err != nil{
 		app.errorLog.Print(err.Error())
-		http.Error(w,"Internal Server Error",500)
+		http.Error(w,"Internal server Error",500)
+
 	}
 }
 
@@ -44,7 +45,7 @@ func (app *application)snippetView(w http.ResponseWriter, r *http.Request){
 func (app *application)snippetCreate(w http.ResponseWriter, r *http.Request){
 	if r.Method != http.MethodPost{
 		w.Header().Set("Allow",http.MethodPost)
-		http.Error(w,"Method Not Allowed", http.StatusMethodNotAllowed)
+		http.Error(w,"Method not Allowed", http.StatusMethodNotAllowed)
 		return
 	}
 	w.Write([]byte("Create a new snippet"))
