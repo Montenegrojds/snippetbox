@@ -3,7 +3,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"html/template"
+	_"html/template"
 	"errors"
 	"github.com/montenegrojds/snippetbox/internal/models"
 )
@@ -19,6 +19,11 @@ func (app *application) home(w http.ResponseWriter, r *http.Request){
 		return
 	}
 
+	app.render(w, http.StatusOK,"home.html",&templateData{
+		Snippets: snippets,
+	})
+	
+	/*
 	files := []string{
 		"./ui/html/base.html",
 		"./ui/html/partials/nav.html",
@@ -39,7 +44,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request){
 	err = ts.ExecuteTemplate(w,"base",data)
 	if err != nil{
 		app.serverError(w,err)
-	}
+	}*/
 }
 
 func (app *application)snippetView(w http.ResponseWriter, r *http.Request){
@@ -58,6 +63,10 @@ func (app *application)snippetView(w http.ResponseWriter, r *http.Request){
 		return
 	}
 
+	app.render(w,http.StatusOK, "view.html", &templateData{
+		Snippet: snippet,
+	})
+	/*
 	files := []string{
 		"./ui/html/base.html",
 		"./ui/html/partials/nav.html",
@@ -78,9 +87,8 @@ func (app *application)snippetView(w http.ResponseWriter, r *http.Request){
 		app.serverError(w,err)
 	 }
 	fmt.Fprintf(w, "%+v", snippet)
-}
-
-
+	*/
+	}
 
 func (app *application)snippetCreate(w http.ResponseWriter, r *http.Request){
 	if r.Method != http.MethodPost{
